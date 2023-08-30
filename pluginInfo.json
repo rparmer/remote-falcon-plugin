@@ -1,24 +1,13 @@
 {
 	"repoName": "remote-falcon",
-	"name": "Remote Falcon",
+	"name": "Remote Falcon - v2",
 	"author": "James Vance",
 	"description": "Allows remote control of FPP from the Remote Falcon web application (https://remotefalcon.com)",
-	"homeURL": "https://github.com/whitesoup12/remote-falcon-plugin",
-	"srcURL": "https://github.com/whitesoup12/remote-falcon-plugin.git",
-	"bugURL": "https://github.com/whitesoup12/remote-falcon-tracker/issues",
+	"homeURL": "https://github.com/rparmer/remote-falcon-plugin",
+	"srcURL": "https://github.com/rparmer/remote-falcon-plugin.git",
+	"bugURL": "https://github.com/rparmer/remote-falcon-tracker/issues",
 	"allowUpdates": 1,
 	"versions": [
-		{
-			"minFPPVersion": "2.0",
-			"maxFPPVersion": "4.9.9",
-			"branch": "master-4",
-			"sha": "",
-			"dependencies": {
-				"plugins": [],
-				"packages": [],
-				"scripts": []
-			}
-		},
 		{
 			"minFPPVersion": "5.0",
 			"maxFPPVersion": "0",
