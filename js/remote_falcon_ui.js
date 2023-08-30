@@ -94,7 +94,7 @@ async function init() {
 
   setApiUrl();
 
-  await savePluginVersionAndFPPVersionToRF();
+  // await savePluginVersionAndFPPVersionToRF();
   await checkPluginUpdates();
   await getPlaylists();
   
