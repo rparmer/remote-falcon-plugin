@@ -1,7 +1,7 @@
 {
-	"repoName": "remote-falcon",
-	"name": "Remote Falcon - v2",
-	"author": "James Vance",
+	"repoName": "remote-falcon-plugin",
+	"name": "Remote Falcon Plugin",
+	"author": "Russ Parmer",
 	"description": "Allows remote control of FPP from the Remote Falcon web application (https://remotefalcon.com)",
 	"homeURL": "https://github.com/rparmer/remote-falcon-plugin",
 	"srcURL": "https://github.com/rparmer/remote-falcon-plugin.git",
