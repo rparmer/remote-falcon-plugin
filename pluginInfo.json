@@ -1,8 +1,8 @@
 {
-	"repoName": "remote-falcon-plugin",
-	"name": "Remote Falcon Plugin",
+	"repoName": "remote-falcon",
+	"name": "Remote Falcon",
 	"author": "Russ Parmer",
-	"description": "Allows remote control of FPP from the Remote Falcon web application (https://remotefalcon.com)",
+	"description": "Fork of Remote Falcon Plugin that allows for setting a custom Remote Falcon endpoint",
 	"homeURL": "https://github.com/rparmer/remote-falcon-plugin",
 	"srcURL": "https://github.com/rparmer/remote-falcon-plugin.git",
 	"bugURL": "https://github.com/rparmer/remote-falcon-tracker/issues",

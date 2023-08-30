@@ -4,6 +4,7 @@ $(document).ready(async () => {
   //Component Default States
   $('#pluginVersion').html(PLUGIN_VERSION);
   $('#remoteFalconStatus').html(getRemoteFalconListenerEnabledStatus(REMOTE_FALCON_LISTENER_ENABLED));
+  $('#remoteApiInput').val(REMOTE_API ? REMOTE_API : 'https://remotefalcon.com/remotefalcon/api');
   $('#remoteTokenInput').val(REMOTE_TOKEN ? REMOTE_TOKEN : '');
   $('#interruptScheduleCheckbox').prop('checked', INTERRUPT_SCHEDULE);
   $('#requestFetchTimeInput').val(REQUEST_FETCH_TIME);
@@ -12,6 +13,14 @@ $(document).ready(async () => {
   $('#fppStatusCheckTimeInput').val(FPP_STATUS_CHECK_TIME);
 
   //Component Handlers
+  $('#remoteApiInput').blur(async () => {
+    await FPPPost('/api/plugin/remote-falcon/settings/remoteApi', $('#remoteApiInput').val(), async () => {
+      await getPluginConfig();
+      $.jGrowl("Remote API Saved", { themeState: 'success' });
+      await restartListener();
+    });
+  });
+
   $('#remoteTokenInput').blur(async () => {
     await FPPPost('/api/plugin/remote-falcon/settings/remoteToken', $('#remoteTokenInput').val(), async () => {
       await getPluginConfig();
@@ -77,13 +86,13 @@ $(document).ready(async () => {
 async function init() {
   showLoader();
 
-  setApiUrl();
-
   //This only happens one time
   await saveDefaultPluginConfig();
 
   //Set the config globals
   await getPluginConfig();
+
+  setApiUrl();
 
   await savePluginVersionAndFPPVersionToRF();
   await checkPluginUpdates();

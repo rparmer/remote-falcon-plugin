@@ -3,6 +3,7 @@ var API_URL = 'https://remotefalcon.com/remotefalcon/api';
 
 //Config Globals
 var PLUGIN_VERSION = null;
+var REMOTE_API = null;
 var REMOTE_TOKEN = null;
 var REMOTE_FALCON_LISTENER_ENABLED = null;
 var REMOTE_FALCON_LISTENER_RESTARTING = null;
@@ -17,6 +18,8 @@ function setApiUrl() {
   var hostname = $(location).attr('hostname');
   if(hostname === 'localhost') {
     API_URL = 'http://host.docker.internal:8080/remotefalcon/api'
+  } else if (REMOTE_API != '') {
+    API_URL = REMOTE_API
   }
 }
 
@@ -25,6 +28,7 @@ async function saveDefaultPluginConfig() {
     var init = data?.init;
     if(!init) {
       await FPPPut('/api/plugin/remote-falcon/settings/init', 'true', () => {});
+      await FPPPut('/api/plugin/remote-falcon/settings/remoteApi', API_URL, () => {});
       await FPPPut('/api/plugin/remote-falcon/settings/remoteFalconListenerEnabled', 'true', () => {});
       await FPPPut('/api/plugin/remote-falcon/settings/remoteFalconListenerRestarting', 'false', () => {});
       await FPPPut('/api/plugin/remote-falcon/settings/interruptSchedule', 'false', () => {});
@@ -49,6 +53,9 @@ async function savePluginVersionAndFPPVersionToRF() {
 async function getPluginConfig() {
   await FPPGet('/api/plugin/remote-falcon/settings/pluginVersion', (data) => {
     PLUGIN_VERSION = data?.pluginVersion;
+  });
+  await FPPGet('/api/plugin/remote-falcon/settings/remoteApi', (data) => {
+    REMOTE_API = data?.remoteApi;
   });
   await FPPGet('/api/plugin/remote-falcon/settings/remoteToken', (data) => {
     REMOTE_TOKEN = data?.remoteToken;
