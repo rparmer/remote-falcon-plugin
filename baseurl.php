@@ -1,5 +1,5 @@
 <?php
-$pluginName = basename(dirname(__FILE__));
+$pluginName = "remote-falcon-plugin";
 $pluginPath = $settings['pluginDirectory']."/".$pluginName."/"; 
 $logFile = $settings['logDirectory']."/".$pluginName."-listener.log";
 $pluginConfigFile = $settings['configDirectory'] . "/plugin." .$pluginName;
