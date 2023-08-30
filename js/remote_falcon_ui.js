@@ -14,7 +14,7 @@ $(document).ready(async () => {
 
   //Component Handlers
   $('#remoteApiInput').blur(async () => {
-    await FPPPost('/api/plugin/remote-falcon/settings/remoteApi', $('#remoteApiInput').val(), async () => {
+    await FPPPost('/api/plugin/remote-falcon-plugin/settings/remoteApi', $('#remoteApiInput').val(), async () => {
       await getPluginConfig();
       $.jGrowl("Remote API Saved", { themeState: 'success' });
       await restartListener();
@@ -22,7 +22,7 @@ $(document).ready(async () => {
   });
 
   $('#remoteTokenInput').blur(async () => {
-    await FPPPost('/api/plugin/remote-falcon/settings/remoteToken', $('#remoteTokenInput').val(), async () => {
+    await FPPPost('/api/plugin/remote-falcon-plugin/settings/remoteToken', $('#remoteTokenInput').val(), async () => {
       await getPluginConfig();
       $.jGrowl("Remote Token Saved", { themeState: 'success' });
       await restartListener();
@@ -39,7 +39,7 @@ $(document).ready(async () => {
 
   $('#interruptScheduleCheckbox').change(async () => {
     const isChecked = $('#interruptScheduleCheckbox').is(':checked');
-    await FPPPost('/api/plugin/remote-falcon/settings/interruptSchedule', isChecked.toString(), async () => {
+    await FPPPost('/api/plugin/remote-falcon-plugin/settings/interruptSchedule', isChecked.toString(), async () => {
       await getPluginConfig();
       $.jGrowl(isChecked ? "Interrupt Scheduled Enabled" : "Interrupt Scheduled Disabled", { themeState: 'success' });
       await restartListener();
@@ -55,7 +55,7 @@ $(document).ready(async () => {
   });
 
   $('#requestFetchTimeInput').blur(async () => {
-    await FPPPost('/api/plugin/remote-falcon/settings/requestFetchTime', $('#requestFetchTimeInput').val().toString(), async () => {
+    await FPPPost('/api/plugin/remote-falcon-plugin/settings/requestFetchTime', $('#requestFetchTimeInput').val().toString(), async () => {
       await getPluginConfig();
       $.jGrowl("Request/Vote Fetch Time Saved", { themeState: 'success' });
       await restartListener();
@@ -63,7 +63,7 @@ $(document).ready(async () => {
   });
 
   $('#additionalWaitTimeInput').blur(async () => {
-    await FPPPost('/api/plugin/remote-falcon/settings/additionalWaitTime', $('#additionalWaitTimeInput').val().toString(), async () => {
+    await FPPPost('/api/plugin/remote-falcon-plugin/settings/additionalWaitTime', $('#additionalWaitTimeInput').val().toString(), async () => {
       await getPluginConfig();
       $.jGrowl("Additional Wait Time Saved", { themeState: 'success' });
       await restartListener();
@@ -71,7 +71,7 @@ $(document).ready(async () => {
   });
 
   $('#fppStatusCheckTimeInput').blur(async () => {
-    await FPPPost('/api/plugin/remote-falcon/settings/fppStatusCheckTime', $('#fppStatusCheckTimeInput').val().toString(), async () => {
+    await FPPPost('/api/plugin/remote-falcon-plugin/settings/fppStatusCheckTime', $('#fppStatusCheckTimeInput').val().toString(), async () => {
       await getPluginConfig();
       $.jGrowl("FPP Status Check Time Saved", { themeState: 'success' });
       await restartListener();
@@ -142,7 +142,7 @@ async function syncPlaylistToRF(isResync) {
       }else {
         await RFAPIPost('/syncPlaylists', {playlists: sequences}, async (data, statusText, xhr) => {
           if(xhr?.status === 200) {
-            await FPPPost('/api/plugin/remote-falcon/settings/remotePlaylist', $('#remotePlaylistSelect').val(), async () => {
+            await FPPPost('/api/plugin/remote-falcon-plugin/settings/remotePlaylist', $('#remotePlaylistSelect').val(), async () => {
               REMOTE_PLAYLIST = $('#remotePlaylistSelect').val();
               $.jGrowl("Remote Playlist Saved", { themeState: 'success' });
               await restartListener();
@@ -203,7 +203,7 @@ async function checkPlugin() {
 }
 
 async function stopListener() {
-  await FPPPost('/api/plugin/remote-falcon/settings/remoteFalconListenerEnabled', 'false', () => {});
+  await FPPPost('/api/plugin/remote-falcon-plugin/settings/remoteFalconListenerEnabled', 'false', () => {});
   await getPluginConfig();
   $('#remoteFalconStatus').html(getRemoteFalconListenerEnabledStatus(REMOTE_FALCON_LISTENER_ENABLED));
   $.jGrowl("Stopped Listener", { themeState: 'success' });
