@@ -1,6 +1,6 @@
 {
 	"repoName": "remote-falcon",
-	"name": "Remote Falcon",
+	"name": "Remote Falcon Fork",
 	"author": "Russ Parmer",
 	"description": "Fork of Remote Falcon Plugin that allows for setting a custom Remote Falcon endpoint",
 	"homeURL": "https://github.com/rparmer/remote-falcon-plugin",
