@@ -29,12 +29,8 @@ $(document).ready(async () => {
     });
   });
 
-  $('#remotePlaylistSelect').blur(async () => {
+  $('#syncRemotePlaylistButton').click(async () => {
     await syncPlaylistToRF();
-  });
-
-  $('#resyncRemotePlaylistButton').click(async () => {
-    await syncPlaylistToRF(true);
   });
 
   $('#interruptScheduleCheckbox').change(async () => {
@@ -98,15 +94,14 @@ async function init() {
   await checkPluginUpdates();
   await getPlaylists();
   
+  await checkPlugin();
+  
   hideLoader();
 }
 
-async function syncPlaylistToRF(isResync) {
+async function syncPlaylistToRF() {
   if(REMOTE_TOKEN) {
     var selectedPlaylist = $('#remotePlaylistSelect').val();
-    if(selectedPlaylist === REMOTE_PLAYLIST && !isResync) {
-      return;
-    }
     await FPPGet('/api/playlist/' + encodeURIComponent(selectedPlaylist), async (data) => {
       var sequences = [];
       if(data?.mainPlaylist) {
@@ -142,8 +137,8 @@ async function syncPlaylistToRF(isResync) {
       }else {
         await RFAPIPost('/syncPlaylists', {playlists: sequences}, async (data, statusText, xhr) => {
           if(xhr?.status === 200) {
-            await FPPPost('/api/plugin/remote-falcon-plugin/settings/remotePlaylist', $('#remotePlaylistSelect').val(), async () => {
-              REMOTE_PLAYLIST = $('#remotePlaylistSelect').val();
+            REMOTE_PLAYLIST = $('#remotePlaylistSelect').val();
+            await FPPPost('/api/plugin/remote-falcon-plugin/settings/remotePlaylist', REMOTE_PLAYLIST, async () => {
               $.jGrowl("Remote Playlist Saved", { themeState: 'success' });
               await restartListener();
             });

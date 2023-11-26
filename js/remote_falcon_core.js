@@ -17,7 +17,7 @@ var REMOTE_PLAYLIST = null;
 function setApiUrl() {
   var hostname = $(location).attr('hostname');
   if(hostname === 'localhost') {
-    API_URL = 'http://host.docker.internal:8080/remotefalcon/api'
+    API_URL = 'http://localhost:8080/remotefalcon/api'
   } else if (REMOTE_API != '') {
     API_URL = REMOTE_API
   }
@@ -76,10 +76,19 @@ async function getPluginConfig() {
     ADDITIONAL_WAIT_TIME = parseInt(data?.additionalWaitTime);
   });
   await FPPGet('/api/plugin/remote-falcon-plugin/settings/fppStatusCheckTime', (data) => {
-    FPP_STATUS_CHECK_TIME = parseInt(data?.fppStatusCheckTime);
+    FPP_STATUS_CHECK_TIME = parseFloat(data?.fppStatusCheckTime);
   });
-  await FPPGet('/api/plugin/remote-falcon-plugin/settings/remotePlaylist', (data) => {
-    REMOTE_PLAYLIST = data?.remotePlaylist;
+  // await FPPGet('/api/plugin/remote-falcon/settings/remotePlaylist', (data) => {
+  //   REMOTE_PLAYLIST = data?.remotePlaylist;
+  // });
+  getRemotePlaylistFromConfig();
+}
+
+async function getRemotePlaylistFromConfig() {
+  await FPPGet('/api/configfile/plugin.remote-falcon', (data) => {
+    var remotePlaylistSplit = data?.split('remotePlaylist = "');
+    var remotePlaylistValueSplit = remotePlaylistSplit[1]?.split('"');
+    REMOTE_PLAYLIST = remotePlaylistValueSplit[0]
   });
 }
 
@@ -117,6 +126,9 @@ async function restartListener() {
   await FPPPut('/api/plugin/remote-falcon-plugin/settings/remoteFalconListenerEnabled', 'false', () => {});
   await FPPPut('/api/plugin/remote-falcon-plugin/settings/remoteFalconListenerRestarting', 'true', () => {});
   await getPluginConfig();
+
+  await checkPlugin();
+
   $('#remoteFalconStatus').html(getRemoteFalconListenerEnabledStatus(REMOTE_FALCON_LISTENER_ENABLED));
 
   var checkListenerStatus = setInterval(async () => {
