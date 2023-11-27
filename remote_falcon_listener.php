@@ -51,7 +51,7 @@ $additionalWaitTime = "";
 $remoteApi = "";
 
 $remoteToken = urldecode($pluginSettings['remoteToken']);
-$remoteApi = floatval(urldecode($pluginSettings['remoteApi']));
+$remoteApi = urldecode($pluginSettings['remoteApi']);
 logEntry("Remote API: " . $remoteApi);
 $remotePlaylist = urldecode($pluginSettings['remotePlaylist']);
 logEntry("Remote Playlist: ".$remotePlaylist);
