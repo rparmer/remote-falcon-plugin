@@ -85,7 +85,7 @@ async function getPluginConfig() {
 }
 
 async function getRemotePlaylistFromConfig() {
-  await FPPGet('/api/configfile/plugin.remote-falcon', (data) => {
+  await FPPGet('/api/configfile/plugin.remote-falcon-plugin', (data) => {
     var remotePlaylistSplit = data?.split('remotePlaylist = "');
     var remotePlaylistValueSplit = remotePlaylistSplit[1]?.split('"');
     REMOTE_PLAYLIST = remotePlaylistValueSplit[0]

@@ -6,7 +6,7 @@ include_once "/opt/fpp/www/common.php";
 $pluginName = "remote-falcon";
 include_once "/home/fpp/media/plugins/remote-falcon/baseurl.php";
 $baseUrl = getBaseUrl();
-$pluginConfigFile = $settings['configDirectory'] . "/plugin.remote-falcon";
+$pluginConfigFile = $settings['configDirectory'] . "/plugin.remote-falcon-plugin";
 $pluginSettings = parse_ini_file($pluginConfigFile);
 
 $remoteToken = urldecode($pluginSettings['remoteToken']);
