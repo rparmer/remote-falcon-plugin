@@ -2,8 +2,8 @@
 $PLUGIN_VERSION = "1.0.6";
 
 include_once "/opt/fpp/www/common.php";
-include_once "/home/fpp/media/plugins/remote-falcon-plugin/baseurl.php";
-$baseUrl = getBaseUrl();
+// include_once "/home/fpp/media/plugins/remote-falcon-plugin/baseurl.php";
+// $baseUrl = getBaseUrl();
 $pluginName = "remote-falcon-plugin";
 $pluginPath = $settings['pluginDirectory']."/".$pluginName."/"; 
 $logFile = $settings['logDirectory']."/".$pluginName."-listener.log";
@@ -33,6 +33,9 @@ if (strlen(urldecode($pluginSettings['additionalWaitTime']))<1){
 if (strlen(urldecode($pluginSettings['fppStatusCheckTime']))<1){
   WriteSettingToFile("fppStatusCheckTime",urlencode("1"),$pluginName);
 }
+if (strlen(urldecode($pluginSettings['remoteApi']))<1){
+  WriteSettingToFile("remoteApi",urlencode("https://remotefalcon.com/remotefalcon/api"),$pluginName);
+}
 
 logEntry("Starting Remote Falcon Plugin v" . $PLUGIN_VERSION);
 
@@ -45,8 +48,11 @@ $nextScheduledInRF= "";
 $requestFetchTime = "";
 $rfSequencesCleared = false;
 $additionalWaitTime = "";
+$remoteApi = "";
 
 $remoteToken = urldecode($pluginSettings['remoteToken']);
+$remoteApi = floatval(urldecode($pluginSettings['remoteApi']));
+logEntry("Remote API: " . $remoteApi);
 $remotePlaylist = urldecode($pluginSettings['remotePlaylist']);
 logEntry("Remote Playlist: ".$remotePlaylist);
 $remotePreferences = remotePreferences($remoteToken);
@@ -75,6 +81,8 @@ while(true) {
 
     logEntry("Restarting Remote Falcon Plugin v" . $PLUGIN_VERSION);
     $remoteToken = urldecode($pluginSettings['remoteToken']);
+    $remoteApi = floatval(urldecode($pluginSettings['remoteApi']));
+    logEntry("Remote API: " . $remoteApi);
     $remotePlaylist = urldecode($pluginSettings['remotePlaylist']);
     logEntry("Remote Playlist: ".$remotePlaylist);
     $remotePreferences = remotePreferences($remoteToken);
@@ -243,7 +251,7 @@ function getNextSequence($mainPlaylist, $currentlyPlaying) {
 }
 
 function remotePreferences($remoteToken) {
-  $url = $GLOBALS['baseUrl'] . "/remotePreferences";
+  $url = $GLOBALS['remoteApi'] . "/remotePreferences";
   $options = array(
     'http' => array(
       'method'  => 'GET',
@@ -261,7 +269,7 @@ function getFppStatus() {
 }
 
 function updateWhatsPlaying($currentlyPlaying, $remoteToken) {
-  $url = $GLOBALS['baseUrl'] . "/updateWhatsPlaying";
+  $url = $GLOBALS['remoteApi'] . "/updateWhatsPlaying";
   $data = array(
     'playlist' => trim($currentlyPlaying)
   );
@@ -279,7 +287,7 @@ function updateWhatsPlaying($currentlyPlaying, $remoteToken) {
 }
 
 function updateNextScheduledSequenceInRf($nextScheduled, $remoteToken) {
-  $url = $GLOBALS['baseUrl'] . "/updateNextScheduledSequence";
+  $url = $GLOBALS['remoteApi'] . "/updateNextScheduledSequence";
   $data = array(
     'sequence' => trim($nextScheduled)
   );
@@ -342,7 +350,7 @@ function getPlaylistDetails($remotePlaylistEncoded) {
 }
 
 function highestVotedSequence($remoteToken) {
-  $url = $GLOBALS['baseUrl'] . "/highestVotedPlaylist";
+  $url = $GLOBALS['remoteApi'] . "/highestVotedPlaylist";
   $options = array(
     'http' => array(
       'method'  => 'GET',
@@ -355,7 +363,7 @@ function highestVotedSequence($remoteToken) {
 }
 
 function nextPlaylistInQueue($remoteToken) {
-  $url = $GLOBALS['baseUrl'] . "/nextPlaylistInQueue?updateQueue=true";
+  $url = $GLOBALS['remoteApi'] . "/nextPlaylistInQueue?updateQueue=true";
   $options = array(
     'http' => array(
       'method'  => 'GET',

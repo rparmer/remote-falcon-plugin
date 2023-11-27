@@ -1,5 +1,5 @@
-//Globals
-var API_URL = 'https://remotefalcon.com/remotefalcon/api';
+// //Globals
+// var API_URL = 'https://remotefalcon.com/remotefalcon/api';
 
 //Config Globals
 var PLUGIN_VERSION = null;
@@ -14,21 +14,21 @@ var FPP_STATUS_CHECK_TIME = null;
 var REMOTE_PLAYLIST = null;
 
 
-function setApiUrl() {
-  var hostname = $(location).attr('hostname');
-  if(hostname === 'localhost') {
-    API_URL = 'http://localhost:8080/remotefalcon/api'
-  } else if (REMOTE_API != '') {
-    API_URL = REMOTE_API
-  }
-}
+// function setApiUrl() {
+//   var hostname = $(location).attr('hostname');
+//   if(hostname === 'localhost') {
+//     API_URL = 'http://localhost:8080/remotefalcon/api'
+//   } else if (REMOTE_API != '') {
+//     API_URL = REMOTE_API
+//   }
+// }
 
 async function saveDefaultPluginConfig() {
   await FPPGet('/api/plugin/remote-falcon-plugin/settings/init', async (data) => {
     var init = data?.init;
     if(!init) {
       await FPPPut('/api/plugin/remote-falcon-plugin/settings/init', 'true', () => {});
-      await FPPPut('/api/plugin/remote-falcon-plugin/settings/remoteApi', API_URL, () => {});
+      await FPPPut('/api/plugin/remote-falcon-plugin/settings/remoteApi', 'https://remotefalcon.com/remotefalcon/api', () => {});
       await FPPPut('/api/plugin/remote-falcon-plugin/settings/remoteFalconListenerEnabled', 'true', () => {});
       await FPPPut('/api/plugin/remote-falcon-plugin/settings/remoteFalconListenerRestarting', 'false', () => {});
       await FPPPut('/api/plugin/remote-falcon-plugin/settings/interruptSchedule', 'false', () => {});
@@ -197,7 +197,7 @@ async function FPPPost(url, data, successCallback) {
 
 async function RFAPIGet(url, successCallback) {
   await $.ajax({
-    url: API_URL + url,
+    url: REMOTE_API + url,
     type: 'GET',
     async: true,
     headers: { 'remotetoken': REMOTE_TOKEN },
@@ -209,7 +209,7 @@ async function RFAPIGet(url, successCallback) {
 
 async function RFAPIPost(url, data, successCallback) {
   await $.ajax({
-    url: API_URL + url,
+    url: REMOTE_API + url,
     type: 'POST',
     contentType: 'application/json',
     dataType: 'json',
