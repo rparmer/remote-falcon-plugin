@@ -12,7 +12,6 @@ $pluginSettings = parse_ini_file($pluginConfigFile);
 $remoteToken = urldecode($pluginSettings['remoteToken']);
 $remoteApi = urldecode($pluginSettings['remoteApi']);
 
-
 if(strlen($remoteToken)>1) {
 	$url = $remoteApi . "/updateManagedPsa";
 	$data = array(
